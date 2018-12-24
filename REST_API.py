@@ -80,7 +80,7 @@ def api(data):
     else:
         return f'<h1>ERROR! Current request type isn\'t supported</h1>'
 
-
+print("HELLO")
 # ! Validation for INPUT messages like POST,PUT etc
 def content_validation(content):
     if not request.json or not 'title' in request.json:
