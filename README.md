@@ -9,10 +9,10 @@ If you wish to contribute, go ahead!
 
 ### Getting started
 
-
 1) Create a virtualenv or use your local setup of Python3
-2) Install the requirments with pip (pip3 if you have both python2/3 installed) as following pip install -r requirements.txt
+2) Install the requirements with pip (pip3 if you have both python2/3 installed) as following pip install -r requirements.txt
 3) Run the code: 
+
    # Bash Style - Might need to chmod +x REST_API.py first
    ./REST_API.py
 

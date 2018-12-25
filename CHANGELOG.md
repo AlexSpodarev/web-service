@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - requirments.txt so users who clone the repository can run `pip install -r requriments.txt` - [@tommybrecher](https://github.com/tommybrecher) 
 - Comments on chunks of the code where the logic gets complex - [@tommybrecher](https://github.com/tommybrecher)
 - A method which aborts invalid requests with a 404 unless a specific code is provided `reject_invalid_request()` - [@tommybrecher](https://github.com/tommybrecher)
-- logging statments everywhere for easier debugging (shouldn't run anyways if when calling app.run() we don't set it to debugging - [@tommybrecher](https://github.com/tommybrecher)
+- logging statements everywhere for easier debugging (shouldn't run anyways if when calling app.run() we don't set it to debugging - [@tommybrecher](https://github.com/tommybrecher)
 
 ### Removed
 - Commented out code 
