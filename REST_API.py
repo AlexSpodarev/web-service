@@ -20,7 +20,7 @@ def reject():
 @app.route('/api/<data>', methods=['POST', 'GET'])
 def api(data):
     """
-    This route is designed to handle api requests coming to the ur <server>/api/param
+    This route is designed to handle api requests coming to the url <server>/api/param
     where param is a car Vendor, example: <server>/api/seat
     """
     if request.method == 'POST':
@@ -44,7 +44,7 @@ def api(data):
     elif request.method == 'GET':
         """
         Logic for HTTP/GET
-        If the content exists in the DB, fetch it from the DB and return to user
+        If the content exist in the DB, fetch it from the DB and return to user
         """
         if content_in_db(data):
             reply = fetch_from_db(data)
@@ -64,24 +64,9 @@ def api(data):
         reject_invalid_request(500)
 
 
-def content_validation(content):
-    """
-    This function is used when validation of input is needed in 
-    HTTP methods which results in writing to us (server)
-    """
-    if not request.json or 'title' not in request.json:
-        reject_invalid_request(400)
-    task = {
-        'id': tasks[-1]['id'] + 1,
-        'title': request.json['title'],
-        'description': request.json.get('description', ""),
-        'done': False
-    }
-    tasks.append(task)
-    return jsonify({'task': task}), 201
-
 
 def update_task(task_id):
+    # At the moment the function is for beauty but it'll be impelemented in future versions
     task = [task for task in tasks if task['id'] == task_id]
     if len(task) == 0:
         abort(404)
