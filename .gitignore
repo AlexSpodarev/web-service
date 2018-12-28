@@ -1,4 +1,6 @@
 # My gitignore file
 .idea/
 venv/
+backlog.txt
+utils/db_migration.py
 
