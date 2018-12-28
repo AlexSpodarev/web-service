@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [0.0.4] - 2018-12-28
+
+### Added
+- Database extended from 2 to 6 columns - [@AlexSpodarev](https://github.com/AlexSpodarev)
+
+### Removed
+- Removed unused code and optimized code syntax - [@AlexSpodarev](https://github.com/AlexSpodarev)
+
+### Changed
+- Totally reconstructed GET / POST code and helper functions - [@AlexSpodarev](https://github.com/AlexSpodarev)
+
 ## [0.0.3] - 2018-12-26
 
 ### Added
