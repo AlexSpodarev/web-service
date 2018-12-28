@@ -55,7 +55,7 @@ def fetch_from_db(key=None, db='database.csv', db_mode='r'):
     """
 
     app.logger.info("Inside the function: fetch_from_db()")
-    Somelist = []
+    output = []
     if key is not None:
 
         with open(db, db_mode) as file:
@@ -75,7 +75,7 @@ def fetch_from_db(key=None, db='database.csv', db_mode='r'):
                     torque = parsed[5].split()[0]
 
                     if vendor == key:
-                        Somelist.append(
+                        output.append(
                             {
                                 v1: vendor,
                                 v2: model,
@@ -94,7 +94,7 @@ def fetch_from_db(key=None, db='database.csv', db_mode='r'):
                     """
                     reject_invalid_request(501)
 
-            return jsonify(Somelist)
+            return jsonify(output)
     else:
         """
         If we didn't get a key, reject the request with a 404 not found
@@ -182,8 +182,4 @@ def reject_invalid_request(code=404):
 
 
 if __name__ == '__main__':
-    """
-    If we hardcode the IP address of the host it will not run out of the box on new installations
-    Change this to 0.0.0.0 to listen on all interfaces
-    """
     app.run(host='0.0.0.0', port="5000", debug=True)
