@@ -6,7 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Database extended from 2 to 6 columns - [@AlexSpodarev](https://github.com/AlexSpodarev)
-- Added support for Precision 6262 Turbo, the code is now capable for 700whp - [@AlexSpodarev](https://github.com/AlexSpodarev)
 
 ### Removed
 - Removed unused code and optimized code syntax - [@AlexSpodarev](https://github.com/AlexSpodarev)
