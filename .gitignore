@@ -3,4 +3,4 @@
 venv/
 backlog.txt
 utils/db_migration.py
-
+sqlite3.*

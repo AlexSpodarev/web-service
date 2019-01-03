@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 from flask import Flask, request, render_template, abort, jsonify
+import sqlite3
+
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def index(template='index.html', name='X'):
-    return render_template(template, name)
+def index(template='index.html'):
+    return render_template(template)
 
 
 @app.route('/api/<data>', methods=['POST'])
@@ -40,13 +42,13 @@ def api_get(data):
     If the content exist in the DB, fetch it from the DB and return to user, else reject (404)
     """
     if is_in_db(data):
-        return fetch_from_db(data)
+        return fetch_from_db(key=data, request_dict=request.args.to_dict())
 
     else:
         reject_invalid_request()
 
 
-def fetch_from_db(key=None, db='database.csv', db_mode='r'):
+def fetch_from_db(key=None, request_dict=None):
     """
     We pass in a key which starts out as None for error handling
     the key is the Vendor of the car, we then open the DB
@@ -55,46 +57,40 @@ def fetch_from_db(key=None, db='database.csv', db_mode='r'):
     """
 
     app.logger.info("Inside the function: fetch_from_db()")
-    output = []
+
     if key is not None:
 
-        with open(db, db_mode) as file:
+        db = open_db_connection()
 
-            for idx, line in enumerate(file.readlines()):
-                if idx == 0:
-                    header = line.strip().split(',')
-                    v1, v2, v3, v4, v5, v6 = header
+        params_list = []
+        for k, v in request_dict.items():
+            if v.isalpha():
+                result = f"{k.capitalize()} LIKE '%{v}%'"
+            else:
+                result = f"{k.capitalize()} == {v}"
+            params_list.append(result)
+        params = " AND ".join(params_list)
 
-                elif line != '\n':
-                    parsed = line.split(',')
-                    vendor = parsed[0].split()[0]
-                    model = parsed[1].split()[0]
-                    year = parsed[2].split()[0]
-                    engine = parsed[3].split()[0]
-                    hp = parsed[4].split()[0]
-                    torque = parsed[5].split()[0]
+        query = f"SELECT * FROM cars WHERE Vendor == '{key}' AND {params};"
+        app.logger.debug(query)
 
-                    if vendor == key:
-                        output.append(
-                            {
-                                v1: vendor,
-                                v2: model,
-                                v3: year,
-                                v4: engine,
-                                v5: hp,
-                                v6: torque
-                            }
-                        )
+        cursor = db.cursor()
 
-                elif line == '\n':
-                    """
-                    If for some reason we reached the end of the file 
-                    and we can't find the key in the database we reject the request
-                    Code 501 - Internal Server Error
-                    """
-                    reject_invalid_request(501)
+        output = []
+        for Vendor, Model, Year, Engine, HP, Torque in cursor.execute(query):
+            output.append(
+                {
+                    'Vendor': Vendor.capitalize(),
+                    'Model': Model.capitalize(),
+                    'Year': Year,
+                    'Engine': Engine,
+                    'HP': HP,
+                    'Torque': Torque
+                }
+            )
 
-            return jsonify(output)
+        return jsonify(output)
+
     else:
         """
         If we didn't get a key, reject the request with a 404 not found
@@ -102,20 +98,13 @@ def fetch_from_db(key=None, db='database.csv', db_mode='r'):
         reject_invalid_request()
 
 
-def is_in_db(content=None, db='database.csv', db_mode='r'):
+def is_in_db(content=None):
     app.logger.info("Inside the function: is_in_db()")
-    result = []
-    with open(db, db_mode) as f:
-        for line in f.readlines():
-            if line != '\n':
-                if line.split(',')[0] == content:
-                    app.logger.info(f'Exist,appending:{line}')
-                    result.append(line)
 
-            else:
-                app.logger.info(f"Couldn't find '{content}' in '{db}'")
-                return result
-        return result
+    db = open_db_connection()
+    cursor = db.cursor()
+    cursor.execute(f"SELECT * FROM cars WHERE vendor == '{content}';")
+    return cursor.fetchall()
 
 
 def content_in_db(content=None, db='database.csv', db_mode='r'):
@@ -181,5 +170,10 @@ def reject_invalid_request(code=404):
     abort(code)
 
 
+def open_db_connection(db='cars.db'):
+    conn = sqlite3.connect(db)
+    return conn
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port="5000", debug=True)
+
