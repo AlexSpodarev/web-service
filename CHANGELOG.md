@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Database passed from .csv to SQLite3 - [@AlexSpodarev](https://github.com/AlexSpodarev)
-- URL now can be for example "api/seat" or "api/seat?model=leon&year=2015" - [@AlexSpodarev](https://github.com/AlexSpodarev)
+- Added support for GET requests with query arguments, for example "api/seat" or "api/seat?model=leon&year=2015" - [@AlexSpodarev](https://github.com/AlexSpodarev)
 
 ### Removed
 - Removed code that worked with .csv database - [@AlexSpodarev](https://github.com/AlexSpodarev)
