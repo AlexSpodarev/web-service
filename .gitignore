@@ -4,3 +4,6 @@ venv/
 backlog.txt
 utils/db_migration.py
 sqlite3.*
+*__pycache__*
+*.swp
+*egg-info*
